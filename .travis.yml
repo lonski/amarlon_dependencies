@@ -7,8 +7,8 @@ script:
   - sh build_linux.sh
   - sudo apt-get install mutt
   - tar -zcf build.tar.gz include lib
-  - du -sh build.tar
-  - echo "Build content" | mutt -a "build.tar" -s "Amarlon Deps build" -- michal@lonski.pl
+  - du -sh build.tar.gz
+  - echo "Build content" | mutt -a "build.tar.gz" -s "Amarlon Deps build" -- michal@lonski.pl
 notifications:
   recipients:
     - michal.lonski+travis.ci@gmail.com
