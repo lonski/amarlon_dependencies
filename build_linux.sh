@@ -10,9 +10,6 @@ BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
-CC_COMPILER=gcc
-CXX_COMPILER=g++
-
 set_gcc()
 {
 	GCC_VERSION=5
@@ -114,7 +111,7 @@ LUABIND_build()
 	echo "${GREEN}--- Building LUABIND..${NC}"
 	mkdir build
 	cd build
-	cmake .. -DLUABIND_DYNAMIC_LINK=1 -DBUILD_TESTING=0 -DCMAKE_CXX_COMPILER=$CXX_COMPILER -DCMAKE_CC_COMPILER=$CC_COMPILER
+	cmake .. -DLUABIND_DYNAMIC_LINK=1 -DBUILD_TESTING=0
 	make -j`grep -c processor /proc/cpuinfo`
 }
 
