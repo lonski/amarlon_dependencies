@@ -13,13 +13,18 @@ NC='\033[0m'
 mkdir $LIB_DIR
 mkdir $INCLUDE_DIR
 
-TCOD_build()
+before_build()
 {
 	echo "${GREEN}--- Updating source list..${NC}"
 	sudo apt-get update -qq
 	echo "${GREEN}--- Installing SDL1.2..${NC}"
-	sudo apt-get install libsdl1.2-dev
+	sudo apt-get install libsdl1.2-dev -qq
+	echo "${GREEN}--- Installing CMAKE..${NC}"
+	sudo apt-get install cmake -qq
+}
 
+TCOD_build()
+{
 	cd $SRC_DIR
 	cd libtcod
 
@@ -100,15 +105,19 @@ if [ "$1" = "clean" ]; then
 	LUABIND_clean
 	rm -rf $LIB_DIR
 	rm -rf $INCLUDE_DIR
-elif [ "$1" = "tcod" ]; then
-	TCOD_build
-elif [ "$1" = "lua" ]; then
-	LUA53_build
-elif [ "$1" = "luabind" ]; then
-	LUABIND_build
 else
-	TCOD_build
-	LUA53_build
-	LUABIND_build
+	before_build
+	
+	if [ "$1" = "tcod" ]; then
+		TCOD_build
+	elif [ "$1" = "lua" ]; then
+		LUA53_build
+	elif [ "$1" = "luabind" ]; then
+		LUABIND_build
+	else		
+		TCOD_build
+		LUA53_build
+		LUABIND_build
+	fi
 fi
 
