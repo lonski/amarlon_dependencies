@@ -15,6 +15,11 @@ mkdir $INCLUDE_DIR
 
 TCOD_build()
 {
+	echo "${GREEN}--- Updating source list..${NC}"
+	sudo apt-get update -qq
+	echo "${GREEN}--- Installing SDL1.2..${NC}"
+	sudo apt-get install libsdl1.2-dev
+
 	cd $SRC_DIR
 	cd libtcod
 
