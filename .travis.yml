@@ -2,7 +2,7 @@ language: cpp
 branches:
   only:
     - master
-script
+script:
   - sh build_linux.sh
 notifications:
   recipients:
