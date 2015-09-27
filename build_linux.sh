@@ -54,6 +54,7 @@ TCOD_build()
 	make -f makefiles/makefile-linux debug
 	echo "${CYAN}--- Copying TCOD libs..${NC}"
 	cp ./libtcod_debug.so $LIB_DIR/libtcod.so
+	cp ./libtcod_debug.so $LIB_DIR/libtcodxx.so
 	echo "${CYAN}--- Copying TCOD includes..${NC}"
 	mkdir $INCLUDE_DIR/tcod
 	cp -r include/* $INCLUDE_DIR/tcod
