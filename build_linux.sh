@@ -10,11 +10,11 @@ BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
-mkdir $LIB_DIR
-mkdir $INCLUDE_DIR
-
 before_build()
 {
+	echo "${GREEN}--- Creating directories..${NC}"
+	mkdir $LIB_DIR
+	mkdir $INCLUDE_DIR
 	echo "${GREEN}--- Updating source list..${NC}"
 	sudo apt-get update -qq
 	echo "${GREEN}--- Installing SDL1.2..${NC}"
@@ -84,6 +84,12 @@ LUABIND_build()
 	cd luabind
 
 	echo "${GREEN}--- Building LUABIND..${NC}"
+	mkdir include
+	mkdir lib
+	cp -r $INCLUDE_DIR/lua include
+	cp $LIB_DIR/liblua.so lib/
+
+	echo "${GREEN}--- Building LUABIND..${NC}"
 	mkdir build
 	cd build
 	cmake .. -DLUABIND_DYNAMIC_LINK=1 -DBUILD_TESTING=0
@@ -97,6 +103,8 @@ LUABIND_clean()
 
 	echo "${BLUE}--- Cleaning LUABIND..${NC}"
 	rm -rf build
+	rm -rf include
+	rm -rf lib
 }
 
 if [ "$1" = "clean" ]; then
@@ -107,7 +115,7 @@ if [ "$1" = "clean" ]; then
 	rm -rf $INCLUDE_DIR
 else
 	before_build
-	
+
 	if [ "$1" = "tcod" ]; then
 		TCOD_build
 	elif [ "$1" = "lua" ]; then
