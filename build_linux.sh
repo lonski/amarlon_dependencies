@@ -91,6 +91,7 @@ LUABIND_clean()
 	cd luabind
 
 	echo "${BLUE}--- Cleaning LUABIND..${NC}"
+	rm -rf build
 }
 
 if [ "$1" = "clean" ]; then
