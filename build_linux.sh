@@ -51,6 +51,8 @@ TCOD_build()
 	echo "${CYAN}--- Copying TCOD libs..${NC}"
 	cp ./libtcod_debug.so $LIB_DIR/libtcod.so
 	cp ./libtcodxx_debug.so $LIB_DIR/libtcodxx.so
+	cp ./libtcod_debug.so $LIB_DIR/libtcod_debug.so
+	cp ./libtcodxx_debug.so $LIB_DIR/libtcodxx_debug.so
 	echo "${CYAN}--- Copying TCOD includes..${NC}"
 	mkdir $INCLUDE_DIR/tcod
 	cp -r include/* $INCLUDE_DIR/tcod
