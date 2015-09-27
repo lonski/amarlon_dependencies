@@ -5,6 +5,9 @@ branches:
     - master
 script:
   - sh build_linux.sh
+  - sudo apt-get install mutt
+  - tar -cf build.tar include lib
+  - echo "Build content" | mutt -a "build.tar" -s "Amarlon Deps build" -- michal@lonski.pl
 notifications:
   recipients:
     - michal.lonski+travis.ci@gmail.com
