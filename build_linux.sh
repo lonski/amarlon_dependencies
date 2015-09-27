@@ -40,9 +40,7 @@ before_build()
 	echo "${GREEN}--- Installing BOOST..${NC}"
 	sudo apt-get install libboost1.55-dev -qq	
 	echo "${GREEN}--- Installing GTEST..${NC}"
-	sudo apt-get install libgtest-dev -qq	
-	echo "${GREEN}--- Installing GMOCK..${NC}"
-	sudo apt-get install google-mock -qq	
+	sudo apt-get install libgtest-dev -qq
 }
 
 TCOD_build()
@@ -162,20 +160,21 @@ GTEST_build()
 
 GMOCK_build()
 {
-	sudo rm -rf /usr/src/gmock/build
-	sudo mkdir /usr/src/gmock/build
-	cd /usr/src/gmock/build
+	cd $SRC_DIR
+	cd gmock
+	mkdir build
+	cd build
 
 	echo "${GREEN}--- Building GMOCK..${NC}"
-	sudo cmake .. -DBUILD_SHARED_LIBS=1
-	sudo make -j`grep -c processor /proc/cpuinfo`
+	cmake .. -DBUILD_SHARED_LIBS=1
+	make -j`grep -c processor /proc/cpuinfo`
 
 	echo "${CYAN}--- Copying GMOCK libs..${NC}"
-	cp /usr/src/gmock/build/libgmock.so $LIB_DIR/libgmock.so
-	cp /usr/src/gmock/build/libgmock_main.so $LIB_DIR/libgmock_main.so
+	cp libgmock.so $LIB_DIR/libgmock.so
+	cp libgmock_main.so $LIB_DIR/libgmock_main.so
 
 	echo "${CYAN}--- Copying GMOCK includes..${NC}"
-	cp -r /usr/include/gmock $INCLUDE_DIR
+	cp -r ../include/gmock $INCLUDE_DIR
 }
 
 if [ "$1" = "clean" ]; then
