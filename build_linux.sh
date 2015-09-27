@@ -106,21 +106,21 @@ LUABIND_build()
 	cd $SRC_DIR
 	cd luabind
 
-	echo "${GREEN}--- Building LUABIND..${NC}"
+	echo "${GREEN}--- Building LUABIND09..${NC}"
 	mkdir include
 	mkdir lib
 	cp -r $INCLUDE_DIR/lua include
 	cp $LIB_DIR/liblua.so lib/
 
-	echo "${GREEN}--- Building LUABIND..${NC}"
+	echo "${GREEN}--- Building LUABIND09..${NC}"
 	mkdir build
 	cd build
 	cmake .. -DLUABIND_DYNAMIC_LINK=1 -DBUILD_TESTING=0
 	make -j2
 
-	echo "${CYAN}--- Copying LUABIND libs..${NC}"
-	cp src/libluabind09.so $LIB_DIR/libluabind.so
-	echo "${CYAN}--- Copying LUABIND includes..${NC}"
+	echo "${CYAN}--- Copying LUABIND09 libs..${NC}"
+	cp src/libluabind09.so $LIB_DIR/libluabind09.so
+	echo "${CYAN}--- Copying LUABIND09 includes..${NC}"
 	cp -r ../luabind $INCLUDE_DIR
 	touch $INCLUDE_DIR/luabind/build_information.hpp
 }
@@ -136,7 +136,7 @@ LUABIND_clean()
 	cd $SRC_DIR
 	cd luabind
 
-	echo "${BLUE}--- Cleaning LUABIND..${NC}"
+	echo "${BLUE}--- Cleaning LUABIND09..${NC}"
 	rm -rf build
 	rm -rf include
 	rm -rf lib
