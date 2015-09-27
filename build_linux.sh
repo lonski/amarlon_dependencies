@@ -54,7 +54,7 @@ TCOD_build()
 	make -f makefiles/makefile-linux debug
 	echo "${CYAN}--- Copying TCOD libs..${NC}"
 	cp ./libtcod_debug.so $LIB_DIR/libtcod.so
-	cp ./libtcod_debug.so $LIB_DIR/libtcodxx.so
+	cp ./libtcodxx_debug.so $LIB_DIR/libtcodxx.so
 	echo "${CYAN}--- Copying TCOD includes..${NC}"
 	mkdir $INCLUDE_DIR/tcod
 	cp -r include/* $INCLUDE_DIR/tcod
@@ -125,6 +125,12 @@ LUABIND_build()
 	touch $INCLUDE_DIR/luabind/build_information.hpp
 }
 
+XML_build()
+{
+	echo "${CYAN}--- Copying RAPIDXML includes..${NC}"
+	cp -r $SRC_DIR/rapidxml $INCLUDE_DIR/xml
+}
+
 LUABIND_clean()
 {
 	cd $SRC_DIR
@@ -173,6 +179,7 @@ if [ "$1" = "clean" ]; then
 	TCOD_clean
 	LUA53_clean
 	LUABIND_clean
+	echo "${BLUE}--- Cleaning lib & include directories..${NC}"
 	rm -rf $LIB_DIR
 	rm -rf $INCLUDE_DIR
 else
@@ -188,9 +195,12 @@ else
 		GTEST_build
 	elif [ "$1" = "gmock" ]; then
 		GMOCK_build
+	elif [ "$1" = "xml" ]; then
+		XML_build
 	else		
 		GTEST_build
 		GMOCK_build
+		XML_build
 		TCOD_build
 		LUA53_build
 		LUABIND_build
