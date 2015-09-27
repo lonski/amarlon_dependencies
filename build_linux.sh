@@ -10,6 +10,22 @@ BLUE='\033[0;34m'
 CYAN='\033[0;36m'
 NC='\033[0m'
 
+set_gcc()
+{
+	GCC_VERSION=$5
+
+	sudo update-alternatives --remove-all gcc
+	sudo update-alternatives --remove-all g++
+
+	sudo apt-get install -qq gcc-$GCC_VERSION g++-$GCC_VERSION
+
+	sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-$GCC_VERSION 20 --slave /usr/bin/g++ g++ /usr/bin/g++-$GCC_VERSION
+	sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
+	sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
+	sudo update-alternatives --set cc /usr/bin/gcc
+	sudo update-alternatives --set c++ /usr/bin/g++
+}
+
 before_build()
 {
 	echo "${GREEN}--- Creating directories..${NC}"
@@ -117,6 +133,7 @@ if [ "$1" = "clean" ]; then
 	rm -rf $LIB_DIR
 	rm -rf $INCLUDE_DIR
 else
+	set_gcc
 	before_build
 
 	if [ "$1" = "tcod" ]; then
