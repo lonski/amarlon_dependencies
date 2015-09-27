@@ -15,7 +15,7 @@ CXX_COMPILER=g++
 
 set_gcc()
 {
-	GCC_VERSION=$5
+	GCC_VERSION=5
 
 	sudo update-alternatives --remove-all gcc
 	sudo update-alternatives --remove-all g++
