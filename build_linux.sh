@@ -38,9 +38,7 @@ before_build()
 	echo "${GREEN}--- Installing CMAKE..${NC}"
 	sudo apt-get install cmake -qq
 	echo "${GREEN}--- Installing BOOST..${NC}"
-	sudo apt-get install libboost1.55-dev -qq	
-	echo "${GREEN}--- Installing GTEST..${NC}"
-	sudo apt-get install libgtest-dev -qq
+	sudo apt-get install libboost1.55-dev -qq
 }
 
 TCOD_build()
@@ -142,20 +140,30 @@ LUABIND_clean()
 
 GTEST_build()
 {
-	sudo rm -rf /usr/src/gtest/build
-	sudo mkdir /usr/src/gtest/build
-	cd /usr/src/gtest/build
+	cd $SRC_DIR
+	cd gtest
+	mkdir build
+	cd build
 
 	echo "${GREEN}--- Building GTEST..${NC}"
-	sudo cmake .. -DBUILD_SHARED_LIBS=1
-	sudo make -j`grep -c processor /proc/cpuinfo`
+	cmake .. -DBUILD_SHARED_LIBS=1
+	make -j`grep -c processor /proc/cpuinfo`
 
 	echo "${CYAN}--- Copying GTEST libs..${NC}"
-	cp /usr/src/gtest/build/libgtest.so $LIB_DIR/libgtest.so
-	cp /usr/src/gtest/build/libgtest_main.so $LIB_DIR/libgtest_main.so
+	cp libgtest.so $LIB_DIR/libgtest.so
+	cp libgtest_main.so $LIB_DIR/libgtest_main.so
 
 	echo "${CYAN}--- Copying GTEST includes..${NC}"
-	cp -r /usr/include/gtest $INCLUDE_DIR
+	cp -r ../include/gtest $INCLUDE_DIR
+}
+
+GTEST_clean()
+{
+	cd $SRC_DIR
+	cd gtest
+
+	echo "${BLUE}--- Cleaning GTEST..${NC}"
+	rm -rf build
 }
 
 GMOCK_build()
@@ -177,10 +185,21 @@ GMOCK_build()
 	cp -r ../include/gmock $INCLUDE_DIR
 }
 
+GMOCK_clean()
+{
+	cd $SRC_DIR
+	cd gmock
+
+	echo "${BLUE}--- Cleaning GMOCK..${NC}"
+	rm -rf build
+}
+
 if [ "$1" = "clean" ]; then
 	TCOD_clean
 	LUA53_clean
 	LUABIND_clean
+	GMOCK_clean
+	GTEST_clean
 	echo "${BLUE}--- Cleaning lib & include directories..${NC}"
 	rm -rf $LIB_DIR
 	rm -rf $INCLUDE_DIR
