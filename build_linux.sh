@@ -171,9 +171,6 @@ GMOCK_build()
 	sudo make -j`grep -c processor /proc/cpuinfo`
 
 	echo "${CYAN}--- Copying GMOCK libs..${NC}"
-	cp /usr/src/gtest/build/libgtest.so $LIB_DIR/libgtest.so
-	cp /usr/src/gtest/build/libgtest_main.so $LIB_DIR/libgtest_main.so
-
 	cp /usr/src/gmock/build/libgmock.so $LIB_DIR/libgmock.so
 	cp /usr/src/gmock/build/libgmock_main.so $LIB_DIR/libgmock_main.so
 
