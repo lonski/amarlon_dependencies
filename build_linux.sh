@@ -155,6 +155,9 @@ GTEST_build()
 	echo "${CYAN}--- Copying GTEST libs..${NC}"
 	cp /usr/src/gtest/build/libgtest.so $LIB_DIR/libgtest.so
 	cp /usr/src/gtest/build/libgtest_main.so $LIB_DIR/libgtest_main.so
+
+	echo "${CYAN}--- Copying GTEST includes..${NC}"
+	cp -r /usr/include/gtest $INCLUDE_DIR
 }
 
 GMOCK_build()
@@ -173,6 +176,9 @@ GMOCK_build()
 
 	cp /usr/src/gmock/build/libgmock.so $LIB_DIR/libgmock.so
 	cp /usr/src/gmock/build/libgmock_main.so $LIB_DIR/libgmock_main.so
+
+	echo "${CYAN}--- Copying GMOCK includes..${NC}"
+	cp -r /usr/include/gmock $INCLUDE_DIR
 }
 
 if [ "$1" = "clean" ]; then
