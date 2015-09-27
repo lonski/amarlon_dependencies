@@ -73,17 +73,37 @@ LUA53_clean()
 	rm src/luac
 }
 
+LUABIND_build()
+{
+	cd $SRC_DIR
+	cd luabind
+
+	echo "${GREEN}--- Building LUABIND..${NC}"
+}
+
+LUABIND_clean()
+{
+	cd $SRC_DIR
+	cd luabind
+
+	echo "${BLUE}--- Cleaning LUABIND..${NC}"
+}
+
 if [ "$1" = "clean" ]; then
 	TCOD_clean
 	LUA53_clean
+	LUABIND_clean
 	rm -rf $LIB_DIR
 	rm -rf $INCLUDE_DIR
 elif [ "$1" = "tcod" ]; then
 	TCOD_build
 elif [ "$1" = "lua" ]; then
 	LUA53_build
+elif [ "$1" = "luabind" ]; then
+	LUABIND_build
 else
 	TCOD_build
 	LUA53_build
+	LUABIND_build
 fi
 
