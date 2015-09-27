@@ -13,7 +13,7 @@ NC='\033[0m'
 set_gcc()
 {
     sudo apt-get install build-essential
-    sudo apt-get install -qq gcc-5 g++-5
+    sudo apt-get install -qq gcc-5 g++-5 -qq
     sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-5 20 --slave /usr/bin/g++ g++ /usr/bin/g++-5
     sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 30
     sudo update-alternatives --install /usr/bin/c++ c++ /usr/bin/g++ 30
@@ -111,7 +111,7 @@ LUABIND_build()
 	mkdir build
 	cd build
 	cmake .. -DLUABIND_DYNAMIC_LINK=1 -DBUILD_TESTING=0
-	make -j`grep -c processor /proc/cpuinfo`
+	make -j2
 }
 
 LUABIND_clean()
