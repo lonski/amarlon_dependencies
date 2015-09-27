@@ -28,13 +28,14 @@ TCOD_clean()
 	echo "${BLUE}--- Cleaning TCOD..${NC}"
 	rm *.so
 	rm lib/libz.a
-	rm $LIB_DIR/libtcod.so
 }
 
 if [ "$1" = "clean" ] 
 then
 	TCOD_clean
+	rm -rf $LIB_DIR
 else
+	mkdir $LIB_DIR
 	TCOD_build
 fi
 
