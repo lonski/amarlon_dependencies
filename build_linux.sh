@@ -16,11 +16,14 @@ before_build()
 	mkdir $LIB_DIR
 	mkdir $INCLUDE_DIR
 	echo "${GREEN}--- Updating source list..${NC}"
+	echo "yes" | sudo add-apt-repository ppa:boost-latest/ppa
 	sudo apt-get update -qq
 	echo "${GREEN}--- Installing SDL1.2..${NC}"
 	sudo apt-get install libsdl1.2-dev -qq
 	echo "${GREEN}--- Installing CMAKE..${NC}"
 	sudo apt-get install cmake -qq
+	echo "${GREEN}--- Installing BOOST..${NC}"
+	sudo apt-get install libboost1.55-dev -qq	
 }
 
 TCOD_build()
