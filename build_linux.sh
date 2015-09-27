@@ -36,6 +36,8 @@ before_build()
     echo "yes" | sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 	echo "yes" | sudo add-apt-repository ppa:boost-latest/ppa
 	sudo apt-get update -qq
+	echo "${GREEN}--- Installing GCC5..${NC}"
+	set_gcc
 	echo "${GREEN}--- Installing SDL1.2..${NC}"
 	sudo apt-get install libsdl1.2-dev -qq
 	echo "${GREEN}--- Installing CMAKE..${NC}"
@@ -135,7 +137,6 @@ if [ "$1" = "clean" ]; then
 	rm -rf $LIB_DIR
 	rm -rf $INCLUDE_DIR
 else
-	set_gcc
 	before_build
 
 	if [ "$1" = "tcod" ]; then
