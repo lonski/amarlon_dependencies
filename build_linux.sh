@@ -24,7 +24,7 @@ TCOD_build()
 	cp ./libtcod_debug.so $LIB_DIR/libtcod.so
 	echo "${CYAN}--- Copying TCOD includes..${NC}"
 	mkdir $INCLUDE_DIR/tcod
-	cp -r include/ $INCLUDE_DIR/tcod
+	cp -r include/* $INCLUDE_DIR/tcod
 }
 
 TCOD_clean()
