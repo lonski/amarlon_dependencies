@@ -79,6 +79,10 @@ LUABIND_build()
 	cd luabind
 
 	echo "${GREEN}--- Building LUABIND..${NC}"
+	mkdir build
+	cd build
+	cmake .. -DLUABIND_DYNAMIC_LINK=1 -DBUILD_TESTING=0
+	make -j`grep -c processor /proc/cpuinfo`
 }
 
 LUABIND_clean()
