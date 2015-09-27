@@ -39,6 +39,10 @@ before_build()
 	sudo apt-get install cmake -qq
 	echo "${GREEN}--- Installing BOOST..${NC}"
 	sudo apt-get install libboost1.55-dev -qq	
+	echo "${GREEN}--- Installing GTEST..${NC}"
+	sudo apt-get install libgtest-dev -qq	
+	echo "${GREEN}--- Installing GMOCK..${NC}"
+	sudo apt-get install google-mock -qq	
 }
 
 TCOD_build()
@@ -112,6 +116,12 @@ LUABIND_build()
 	cd build
 	cmake .. -DLUABIND_DYNAMIC_LINK=1 -DBUILD_TESTING=0
 	make -j2
+
+	echo "${CYAN}--- Copying LUABIND libs..${NC}"
+	cp src/libluabind09.so $LIB_DIR/libluabind.so
+	echo "${CYAN}--- Copying LUABIND includes..${NC}"
+	cp -r ../luabind $INCLUDE_DIR
+	touch $INCLUDE_DIR/luabind/build_information.hpp
 }
 
 LUABIND_clean()
@@ -123,6 +133,39 @@ LUABIND_clean()
 	rm -rf build
 	rm -rf include
 	rm -rf lib
+}
+
+GTEST_build()
+{
+	sudo rm -rf /usr/src/gtest/build
+	sudo mkdir /usr/src/gtest/build
+	cd /usr/src/gtest/build
+
+	echo "${GREEN}--- Building GTEST..${NC}"
+	sudo cmake .. -DBUILD_SHARED_LIBS=1
+	sudo make -j`grep -c processor /proc/cpuinfo`
+
+	echo "${CYAN}--- Copying GTEST libs..${NC}"
+	cp /usr/src/gtest/build/libgtest.so $LIB_DIR/libgtest.so
+	cp /usr/src/gtest/build/libgtest_main.so $LIB_DIR/libgtest_main.so
+}
+
+GMOCK_build()
+{
+	sudo rm -rf /usr/src/gmock/build
+	sudo mkdir /usr/src/gmock/build
+	cd /usr/src/gmock/build
+
+	echo "${GREEN}--- Building GMOCK..${NC}"
+	sudo cmake .. -DBUILD_SHARED_LIBS=1
+	sudo make -j`grep -c processor /proc/cpuinfo`
+
+	echo "${CYAN}--- Copying GMOCK libs..${NC}"
+	cp /usr/src/gtest/build/libgtest.so $LIB_DIR/libgtest.so
+	cp /usr/src/gtest/build/libgtest_main.so $LIB_DIR/libgtest_main.so
+
+	cp /usr/src/gmock/build/libgmock.so $LIB_DIR/libgmock.so
+	cp /usr/src/gmock/build/libgmock_main.so $LIB_DIR/libgmock_main.so
 }
 
 if [ "$1" = "clean" ]; then
@@ -140,7 +183,13 @@ else
 		LUA53_build
 	elif [ "$1" = "luabind" ]; then
 		LUABIND_build
+	elif [ "$1" = "gtest" ]; then
+		GTEST_build
+	elif [ "$1" = "gmock" ]; then
+		GMOCK_build
 	else		
+		GTEST_build
+		GMOCK_build
 		TCOD_build
 		LUA53_build
 		LUABIND_build
