@@ -6,7 +6,8 @@ branches:
 script:
   - sh build_linux.sh
   - sudo apt-get install mutt
-  - tar -cf build.tar include lib
+  - tar -zcf build.tar.gz include lib
+  - du -sh build.tar
   - echo "Build content" | mutt -a "build.tar" -s "Amarlon Deps build" -- michal@lonski.pl
 notifications:
   recipients:
