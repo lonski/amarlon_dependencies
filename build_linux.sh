@@ -32,6 +32,8 @@ before_build()
 	mkdir $LIB_DIR
 	mkdir $INCLUDE_DIR
 	echo "${GREEN}--- Updating source list..${NC}"
+	echo "yes" | sudo add-apt-repository "deb http://archive.ubuntu.com/ubuntu `lsb_release -sc` main universe restricted multiverse"
+    echo "yes" | sudo add-apt-repository ppa:ubuntu-toolchain-r/test
 	echo "yes" | sudo add-apt-repository ppa:boost-latest/ppa
 	sudo apt-get update -qq
 	echo "${GREEN}--- Installing SDL1.2..${NC}"
