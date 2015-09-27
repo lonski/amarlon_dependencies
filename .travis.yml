@@ -1,0 +1,12 @@
+language: cpp
+branches:
+  only:
+    - master
+script
+  - sh build_linux.sh
+notifications:
+  recipients:
+    - michal.lonski+travis.ci@gmail.com
+  email:
+    on_success: change
+    on_failure: always
