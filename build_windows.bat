@@ -32,6 +32,8 @@ call:GMOCK_BUILD
 call:TCOD_BUILD
 call:LUA_BUILD
 call:LUABIND_BUILD
+call:XML_BUILD
+call:BOOST_BUILD
 
 cd %ROOT_DIR%
 
@@ -59,6 +61,18 @@ call:LUA_CLEAN
 call:LUABIND_CLEAN
 GOTO:EOF
 
+:XML_BUILD
+echo.Copying RAPIDXML includes...
+mkdir %INCLUDE_DIR%\xml
+xcopy /R /E /Y %ROOT_DIR%\src\rapidxml %INCLUDE_DIR%\xml
+GOTO:EOF
+
+:BOOST_BUILD
+echo.Copying BOOST includes...
+mkdir %INCLUDE_DIR%\xml
+xcopy /R /E /Y %ROOT_DIR%\src\boost %INCLUDE_DIR%\boost
+GOTO:EOF
+
 :LUABIND_BUILD
 echo.Building LUABIND...
 cd %ROOT_DIR%\src\luabind
@@ -84,16 +98,16 @@ del /F /Q %ROOT_DIR%\src\lua53\src\*.exe
 del /F /Q %ROOT_DIR%\src\lua53\src\*.o
 del /F /Q %ROOT_DIR%\src\lua53\src\*.a
 del /F /Q %ROOT_DIR%\src\lua53\src\*.dll
-del /F /Q %ROOT_DIR%\src\luabind\lua.dll
+::del /F /Q %ROOT_DIR%\src\luabind\lua.dll
 GOTO:EOF
 
 :LUA_BUILD
 echo.Building LUA...
 cd %ROOT_DIR%\src\lua53
-mingw32-make PLAT=mingw CC=mingw32-g++
+mingw32-make PLAT=mingw CXX=mingw32-g++ CC=mingw32-gcc -j2
 echo.Copying LUA libs...
 copy src\lua53.dll %LIBS_DIR%\lua.dll
-copy src\lua53.dll %ROOT_DIR%\src\luabind\lua.dll
+::copy src\lua53.dll %ROOT_DIR%\src\luabind\lua.dll
 echo.Copying LUA includes...
 mkdir %INCLUDE_DIR%\lua
 copy src\lua.h %INCLUDE_DIR%\lua
