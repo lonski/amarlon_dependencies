@@ -54,6 +54,7 @@ PROTOBUF_build()
 	./configure --includedir="$INCLUDE_DIR"
 	echo "${GREEN}--- Building PROTOBUF..${NC}"
 	make -j2
+	sudo make install
 	echo "${CYAN}--- Copying PROTOBUF libs..${NC}"
 	cp src/.libs/libprotobuf.so $LIB_DIR/libprotobuf.so
 }
