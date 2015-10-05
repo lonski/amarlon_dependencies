@@ -3,12 +3,18 @@ sudo: required
 branches:
   only:
     - master
+before script:
+  - sudo apt-get install mutt
 script:
   - sh build_linux.sh
-  - sudo apt-get install mutt
-  - tar -zcf build.tar.gz include lib
-  - du -sh build.tar.gz
-  - echo "Build content" | mutt -a "build.tar.gz" -s "Amarlon Deps build" -- michal@lonski.pl
+  - ls -la include
+  - tar -zcf include.tar.gz include
+  - du -sh include.tar.gz
+  - ls -la lib
+  - tar -zcf lib.tar.gz lib
+  - du -sh lib.tar.gz
+  - echo "Build content - Includes" | mutt -a "include.tar.gz" -s "Amarlon Deps build - includes" -- michal@lonski.pl
+  - echo "Build content - Libs" | mutt -a "lib.tar.gz" -s "Amarlon Deps build - libs" -- michal@lonski.pl
 notifications:
   recipients:
     - michal.lonski+travis.ci@gmail.com

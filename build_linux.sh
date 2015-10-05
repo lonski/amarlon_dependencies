@@ -53,7 +53,7 @@ PROTOBUF_build()
 	./autogen.sh
 	./configure
 	echo "${GREEN}--- Building PROTOBUF..${NC}"
-	make check -j2
+	make -j2
 	echo "${CYAN}--- Copying PROTOBUF libs..${NC}"
 	cp src/.libs/libprotobuf.so $LIB_DIR/libprotobuf.so
 }
