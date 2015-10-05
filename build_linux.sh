@@ -51,7 +51,7 @@ PROTOBUF_build()
 	cd protobuf
 	echo "${GREEN}--- Configuring PROTOBUF..${NC}"
 	./autogen.sh
-	./configure
+	./configure --includedir="$INCLUDE_DIR"
 	echo "${GREEN}--- Building PROTOBUF..${NC}"
 	make -j2
 	echo "${CYAN}--- Copying PROTOBUF libs..${NC}"

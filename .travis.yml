@@ -14,6 +14,9 @@ script:
   - ls -la lib
   - tar -zcf lib.tar.gz lib
   - du -sh lib.tar.gz
+  - sudo touch /etc/exim4/exim.conf
+  - sudo echo "MESSAGE_SIZE_LIMIT = \"10000M\"" > /etc/exim4/exim.conf
+  - sudo update-exim4.conf
   - echo "Build content - Includes" | mutt -a "include.tar.gz" -s "Amarlon Deps build - includes" -- michal@lonski.pl
   - echo "Build content - Libs" | mutt -a "lib.tar.gz" -s "Amarlon Deps build - libs" -- michal@lonski.pl
 notifications:
