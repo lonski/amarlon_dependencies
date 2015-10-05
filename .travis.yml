@@ -5,7 +5,7 @@ branches:
     - master
 install:
   - sudo apt-get update -qq
-  - sudo apt-get install mutt
+  - sudo apt-get install mutt exim4
 script:
   - sh build_linux.sh
   - ls -la include
