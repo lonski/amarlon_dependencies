@@ -157,7 +157,6 @@ $(TEMP)/libtcod/zlib :
 	@mkdir -p $@
 
 lib/ :
-	@mkdir -p $@
 
 libtcod-mingw.a : $(LIBOBJS_DEBUG)
 	@ar r $@ $(LIBOBJS_DEBUG)
