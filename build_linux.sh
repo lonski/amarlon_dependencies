@@ -39,6 +39,30 @@ before_build()
 	sudo apt-get install cmake -qq
 	echo "${GREEN}--- Installing BOOST..${NC}"
 	sudo apt-get install libboost1.55-dev -qq
+	echo "${GREEN}--- Installing CURL, DH-AUTORECONF..${NC}"
+	sudo apt-get install curl dh-autoreconf -qq	
+}
+
+PROTOBUF_build()
+{
+	cd $SRC_DIR
+	echo "${GREEN}--- Cloning PROTOBUF source..${NC}"
+	git clone https://github.com/google/protobuf.git
+	cd protobuf
+	echo "${GREEN}--- Configuring PROTOBUF..${NC}"
+	./autogen.sh
+	./configure
+	echo "${GREEN}--- Building PROTOBUF..${NC}"
+	make check -j2
+	echo "${CYAN}--- Copying PROTOBUF libs..${NC}"
+	cp src/.libs/libprotobuf.so $LIB_DIR/libprotobuf.so
+}
+
+PROTOBUF_clean()
+{
+	cd $SRC_DIR
+	echo "${BLUE}--- Cleaning TCOD..${NC}"
+	rm -rf protobuf
 }
 
 TCOD_build()
@@ -202,6 +226,7 @@ if [ "$1" = "clean" ]; then
 	LUABIND_clean
 	GMOCK_clean
 	GTEST_clean
+	PROTOBUF_clean
 	echo "${BLUE}--- Cleaning lib & include directories..${NC}"
 	rm -rf $LIB_DIR
 	rm -rf $INCLUDE_DIR
@@ -220,6 +245,8 @@ else
 		GMOCK_build
 	elif [ "$1" = "xml" ]; then
 		XML_build
+	elif [ "$1" = "proto" ]; then
+		PROTOBUF_build
 	else		
 		GTEST_build
 		GMOCK_build
@@ -227,6 +254,7 @@ else
 		TCOD_build
 		LUA53_build
 		LUABIND_build
+		PROTOBUF_build
 	fi
 fi
 
