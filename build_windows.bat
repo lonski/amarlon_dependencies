@@ -34,6 +34,7 @@ call:LUA_BUILD
 call:LUABIND_BUILD
 call:XML_BUILD
 call:BOOST_BUILD
+call::PROTOBUF_BUILD
 
 cd %ROOT_DIR%
 
@@ -49,16 +50,20 @@ call:CLEAN
 GOTO:EOF
 
 :BEFORE_BUILD
+call:CLEAN
 mkdir %LIBS_DIR%
 mkdir %INCLUDE_DIR%
 GOTO:EOF
 
 :CLEAN
+rmdir /S /Q %LIBS_DIR%
+rmdir /S /Q %INCLUDE_DIR%
 call::GTEST_CLEAN
 call:GMOCK_CLEAN
 call:TCOD_CLEAN
 call:LUA_CLEAN
 call:LUABIND_CLEAN
+call:PROTOBUF_CLEAN
 GOTO:EOF
 
 :XML_BUILD
@@ -69,27 +74,30 @@ GOTO:EOF
 
 :BOOST_BUILD
 echo.Copying BOOST includes...
-mkdir %INCLUDE_DIR%\xml
+mkdir %INCLUDE_DIR%\boost
 xcopy /R /E /Y %ROOT_DIR%\src\boost %INCLUDE_DIR%\boost
 GOTO:EOF
 
 :LUABIND_BUILD
 echo.Building LUABIND...
 cd %ROOT_DIR%\src\luabind
+copy %LIBS_DIR%\lua53.dll lua.dll
 mkdir build
 cd build
 cmake -G"MinGW Makefiles" .. -DLUABIND_DYNAMIC_LINK=1 -DBUILD_TESTING=0 -DBOOST_ROOT="%ROOT_DIR%\src" -DLUA_INCLUDE_DIR="%ROOT_DIR%\include\lua"
 mingw32-make -j2
 echo.Copying LUABIND libs...
-copy src\luabind09.dll %LIBS_DIR%\luabind09.dll
+copy src\libluabind09.dll %LIBS_DIR%\libluabind09.dll
 echo.Copying LUABIND includes...
 mkdir %INCLUDE_DIR%\luabind
 xcopy /R /E /Y ..\luabind %INCLUDE_DIR%\luabind
+xcopy /R /E /Y luabind\build_information.hpp %INCLUDE_DIR%\luabind
 GOTO:EOF
 
 :LUABIND_CLEAN
 echo.Cleaning LUABIND...
 rmdir /S /Q %ROOT_DIR%\src\luabind\build
+del /F /Q %ROOT_DIR%\src\luabind\lua.dll
 GOTO:EOF
 
 :LUA_CLEAN
@@ -104,9 +112,9 @@ GOTO:EOF
 :LUA_BUILD
 echo.Building LUA...
 cd %ROOT_DIR%\src\lua53
-mingw32-make PLAT=mingw CXX=mingw32-g++ CC=mingw32-gcc -j2
+mingw32-make PLAT=mingw -j2
 echo.Copying LUA libs...
-copy src\lua53.dll %LIBS_DIR%\lua.dll
+copy src\lua53.dll %LIBS_DIR%\lua53.dll
 ::copy src\lua53.dll %ROOT_DIR%\src\luabind\lua.dll
 echo.Copying LUA includes...
 mkdir %INCLUDE_DIR%\lua
@@ -123,7 +131,7 @@ del /F /Q %ROOT_DIR%\src\lua53\src\*.exe
 del /F /Q %ROOT_DIR%\src\lua53\src\*.o
 del /F /Q %ROOT_DIR%\src\lua53\src\*.a
 del /F /Q %ROOT_DIR%\src\lua53\src\*.dll
-del /F /Q %ROOT_DIR%\src\luabind\lua.dll
+::del /F /Q %ROOT_DIR%\src\luabind\lua.dll
 GOTO:EOF
 
 :TCOD_BUILD
@@ -135,6 +143,7 @@ copy libtcod-mingw.dll %LIBS_DIR%\libtcod.dll
 copy libtcod-mingw-debug.dll %LIBS_DIR%\libtcod-debug.dll
 copy libtcod-mingw.dll %LIBS_DIR%\libtcodxx.dll
 copy libtcod-mingw-debug.dll %LIBS_DIR%\libtcodxx-debug.dll
+copy SDL.dll %LIBS_DIR%
 echo.Copying TCOD includes...
 mkdir %INCLUDE_DIR%\tcod
 xcopy /R /E /Y include %INCLUDE_DIR%\tcod
@@ -187,4 +196,23 @@ GOTO:EOF
 :GMOCK_CLEAN
 echo.Cleaning GMOCK...
 rmdir /S /Q %ROOT_DIR%\src\gmock\build
+GOTO:EOF
+
+:PROTOBUF_BUILD
+echo.Building PROTOBUF...
+cd %ROOT_DIR%\src\protobuf-3.0.0-beta-2\cmake
+mkdir build
+cd build
+cmake -G"MinGW Makefiles" .. -DBUILD_SHARED_LIBS=1 -Dprotobuf_BUILD_TESTS=OFF
+mingw32-make
+echo.Copying PROTOBUF libs...
+copy libprotobuf.dll %LIBS_DIR%
+echo.Copying PROTOBUF includes...
+mkdir %INCLUDE_DIR%\google
+xcopy /R /E /Y ..\..\include\google %INCLUDE_DIR%\google
+GOTO:EOF
+
+:PROTOBUF_CLEAN
+echo.Cleaning PROTOBUF...
+rmdir /S /Q %ROOT_DIR%\src\protobuf-3.0.0-beta-2\cmake\build
 GOTO:EOF
