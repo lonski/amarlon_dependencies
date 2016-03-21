@@ -27,14 +27,14 @@ echo.
 echo.&pause
 
 call:BEFORE_BUILD
-call:GTEST_BUILD
-call:GMOCK_BUILD
-call:TCOD_BUILD
-call:LUA_BUILD
-call:LUABIND_BUILD
-call:XML_BUILD
-call:BOOST_BUILD
-call::PROTOBUF_BUILD
+::call:GTEST_BUILD
+::call:GMOCK_BUILD
+::call:TCOD_BUILD
+::call:LUA_BUILD
+::call:LUABIND_BUILD
+::call:XML_BUILD
+::call:BOOST_BUILD
+::call::PROTOBUF_BUILD
 
 cd %ROOT_DIR%
 
@@ -46,7 +46,6 @@ echo.All DLLs compiled are in %LIBS_DIR%
 echo.All necessary includes are in %INCLUDE_DIR%
 echo. 
 echo.&pause
-call:CLEAN
 GOTO:EOF
 
 :BEFORE_BUILD
@@ -102,20 +101,20 @@ GOTO:EOF
 
 :LUA_CLEAN
 echo.Cleaning LUABIND...
-del /F /Q %ROOT_DIR%\src\lua53\src\*.exe
-del /F /Q %ROOT_DIR%\src\lua53\src\*.o
-del /F /Q %ROOT_DIR%\src\lua53\src\*.a
-del /F /Q %ROOT_DIR%\src\lua53\src\*.dll
+del /F /Q %ROOT_DIR%\src\lua-5.3.2\src\*.exe
+del /F /Q %ROOT_DIR%\src\lua-5.3.2\src\*.o
+del /F /Q %ROOT_DIR%\src\lua-5.3.2\src\*.a
+del /F /Q %ROOT_DIR%\src\lua-5.3.2\src\*.dll
 ::del /F /Q %ROOT_DIR%\src\luabind\lua.dll
 GOTO:EOF
 
 :LUA_BUILD
 echo.Building LUA...
-cd %ROOT_DIR%\src\lua53
-mingw32-make PLAT=mingw -j2
+cd %ROOT_DIR%\src\lua-5.3.2
+mingw32-make PLAT=mingw
+mingw32-make test
 echo.Copying LUA libs...
 copy src\lua53.dll %LIBS_DIR%\lua53.dll
-::copy src\lua53.dll %ROOT_DIR%\src\luabind\lua.dll
 echo.Copying LUA includes...
 mkdir %INCLUDE_DIR%\lua
 copy src\lua.h %INCLUDE_DIR%\lua
@@ -127,10 +126,10 @@ GOTO:EOF
 
 :LUA_CLEAN
 echo.Cleaning LUA...
-del /F /Q %ROOT_DIR%\src\lua53\src\*.exe
-del /F /Q %ROOT_DIR%\src\lua53\src\*.o
-del /F /Q %ROOT_DIR%\src\lua53\src\*.a
-del /F /Q %ROOT_DIR%\src\lua53\src\*.dll
+del /F /Q %ROOT_DIR%\src\lua-5.3.2\src\*.exe
+del /F /Q %ROOT_DIR%\src\lua-5.3.2\src\*.o
+del /F /Q %ROOT_DIR%\src\lua-5.3.2\src\*.a
+del /F /Q %ROOT_DIR%\src\lua-5.3.2\src\*.dll
 ::del /F /Q %ROOT_DIR%\src\luabind\lua.dll
 GOTO:EOF
 
