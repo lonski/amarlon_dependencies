@@ -57,6 +57,7 @@ GOTO:EOF
 :CLEAN
 rmdir /S /Q %LIBS_DIR%
 rmdir /S /Q %INCLUDE_DIR%
+rmdir /S /Q %ROOT_DIR%\protoc
 call::GTEST_CLEAN
 call:GMOCK_CLEAN
 call:TCOD_CLEAN
@@ -205,13 +206,19 @@ cd build
 cmake -G"MinGW Makefiles" .. -DBUILD_SHARED_LIBS=1 -DDOWNLOAD_PROTOBUF=OFF -DPROTOBUF_ROOT=../../
 mingw32-make
 echo.Copying PROTOBUF libs...
-copy libprotobuf.dll %LIBS_DIR%
+copy libprotobuf\libprotobuf.dll %LIBS_DIR%
 echo.Copying PROTOBUF includes...
 mkdir %INCLUDE_DIR%\google
 xcopy /R /E /Y ..\..\include\google %INCLUDE_DIR%\google
+echo.Copying protoc...
+mkdir %ROOT_DIR%\protoc
+copy libprotobuf\libprotobuf.dll %ROOT_DIR%\protoc
+copy libprotoc\libprotoc.dll %ROOT_DIR%\protoc
+xcopy /R /E /Y ..\..\include\google %ROOT_DIR%\protoc
+copy protoc\protoc.exe %ROOT_DIR%\protoc
 GOTO:EOF
 
 :PROTOBUF_CLEAN
 echo.Cleaning PROTOBUF...
-rmdir /S /Q %ROOT_DIR%\src\protobuf-3.0.0-beta-2\cmake\build
+rmdir /S /Q %ROOT_DIR%\src\protobuf-2.6.1\cmake\build
 GOTO:EOF
