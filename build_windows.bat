@@ -199,10 +199,10 @@ GOTO:EOF
 
 :PROTOBUF_BUILD
 echo.Building PROTOBUF...
-cd %ROOT_DIR%\src\protobuf-3.0.0-beta-2\cmake
+cd %ROOT_DIR%\src\protobuf-2.6.1\cmake
 mkdir build
 cd build
-cmake -G"MinGW Makefiles" .. -DBUILD_SHARED_LIBS=1 -Dprotobuf_BUILD_TESTS=OFF
+cmake -G"MinGW Makefiles" .. -DBUILD_SHARED_LIBS=1 -DDOWNLOAD_PROTOBUF=OFF -DPROTOBUF_ROOT=../../
 mingw32-make
 echo.Copying PROTOBUF libs...
 copy libprotobuf.dll %LIBS_DIR%
